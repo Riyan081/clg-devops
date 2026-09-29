@@ -40,7 +40,7 @@ But this project is **not just about the application** — it is an **end-to-end
 
 ## 3. Technology Stack — What We Used and WHY
 
-### 3.1 Backend: Java 17 + Spring Boot 3.2.3
+### 3.1 Backend: Java 17 + Spring Boot 3.2.3b
 
 **What is it?**
 Java is the programming language. Spring Boot is a framework built on top of Java that makes it extremely fast to create web applications. It gives you an embedded Tomcat server, auto-configuration, and built-in support for REST APIs, databases, and testing.
