@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  ptfp-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: ptfp/public-transport-feedback-portal:latest
+    container_name: ptfp-app
+    ports:
+      - "9090:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback List & Status Tracker | TransitPulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/index.html" class="nav-brand">
+      🚌 TransitPulse | Public Transport Feedback Portal
+    </a>
+    <nav class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/feedback-form.html">Submit Feedback</a>
+      <a href="/feedback-list.html" class="active">Feedback List</a>
+      <a href="/dashboard.html">Analytics Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+        <h2 class="card-title" style="margin-bottom:0;">Transit Feedback Registry</h2>
+        <a href="/feedback-form.html" class="btn btn-primary btn-sm">+ New Feedback</a>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) 100px; gap:0.75rem; margin-bottom:1rem;">
+        <div>
+          <select id="filter-status" class="form-control">
+            <option value="">All Statuses</option>
+            <option value="SUBMITTED">SUBMITTED</option>
+            <option value="IN_REVIEW">IN_REVIEW</option>
+            <option value="RESOLVED">RESOLVED</option>
+            <option value="CLOSED">CLOSED</option>
+          </select>
+        </div>
+        <div>
+          <select id="filter-category" class="form-control">
+            <option value="">All Categories</option>
+            <option value="DELAY">DELAY</option>
+            <option value="CLEANLINESS">CLEANLINESS</option>
+            <option value="SAFETY">SAFETY</option>
+            <option value="STAFF">STAFF</option>
+            <option value="OVERCROWDING">OVERCROWDING</option>
+            <option value="OTHER">OTHER</option>
+          </select>
+        </div>
+        <div>
+          <input type="text" id="search-input" class="form-control" placeholder="Search ticket, route, keyword...">
+        </div>
+        <div>
+          <button id="search-btn" class="btn btn-secondary" style="width:100%;">Search</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Route</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Action (Workflow)</th>
+            </tr>
+          </thead>
+          <tbody id="feedback-table-body">
+            <!-- Dynamically populated via feedback-list.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/feedback-list.js"></script>
+</body>
+</html>

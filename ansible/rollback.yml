@@ -1,0 +1,37 @@
+---
+- name: Rollback PTFP Container to Previous Stable Version
+  hosts: ptfp_staging, ptfp_production
+  become: true
+  vars:
+    ptfp_port: "9090"
+    ptfp_image: "ptfp/public-transport-feedback-portal"
+    rollback_version: "{{ target_version | default('previous_stable') }}"
+
+  tasks:
+    - name: 1. Stop and remove unstable container
+      docker_container:
+        name: ptfp-container
+        state: absent
+      ignore_errors: true
+
+    - name: 2. Redeploy previous stable container release
+      docker_container:
+        name: ptfp-container
+        image: "{{ ptfp_image }}:{{ rollback_version }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "{{ ptfp_port }}:8080"
+        env:
+          SPRING_PROFILES_ACTIVE: "prod"
+      ignore_errors: true
+
+    - name: 3. Verify health of rolled-back container
+      uri:
+        url: "http://localhost:{{ ptfp_port }}/actuator/health"
+        status_code: 200
+      register: rollback_health
+      until: rollback_health.status == 200
+      retries: 5
+      delay: 3
+      ignore_errors: true

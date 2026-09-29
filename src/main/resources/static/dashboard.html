@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard | TransitPulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/index.html" class="nav-brand">
+      🚌 TransitPulse | Public Transport Feedback Portal
+    </a>
+    <nav class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/feedback-form.html">Submit Feedback</a>
+      <a href="/feedback-list.html">Feedback List</a>
+      <a href="/dashboard.html" class="active">Analytics Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2 class="card-title" style="margin-bottom:1.5rem;">Operational Summary & Metrics</h2>
+
+    <div class="grid-metrics">
+      <div class="metric-card">
+        <div class="metric-label">Total Grievances</div>
+        <div class="metric-value" id="metric-total">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Submitted (New)</div>
+        <div class="metric-value" id="metric-submitted" style="color:var(--status-submitted);">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">In Review</div>
+        <div class="metric-value" id="metric-in-review" style="color:var(--status-in-review);">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Resolved</div>
+        <div class="metric-value" id="metric-resolved" style="color:var(--status-resolved);">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Resolution SLA</div>
+        <div class="metric-value" id="metric-rate" style="color:#0284c7;">0%</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Category Breakdown</h3>
+      <div id="category-breakdown">
+        <!-- Dynamically populated via dashboard.js -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

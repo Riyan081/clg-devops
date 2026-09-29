@@ -1,0 +1,78 @@
+---
+- name: Provision and Configure PTFP Target Host
+  hosts: ptfp_staging, ptfp_production
+  become: true
+  vars:
+    ptfp_app_dir: "/opt/ptfp"
+    ptfp_logs_dir: "/opt/ptfp/logs"
+    ptfp_port: "9090"
+    ptfp_image: "ptfp/public-transport-feedback-portal"
+    ptfp_version: "{{ lookup('env', 'BUILD_NUMBER') | default('latest', true) }}"
+
+  tasks:
+    - name: 1. Update apt cache and install prerequisites
+      apt:
+        name:
+          - curl
+          - git
+          - openjdk-17-jre-headless
+          - ufw
+          - ca-certificates
+        state: present
+        update_cache: true
+
+    - name: 2. Ensure application deployment user exists
+      user:
+        name: deploy
+        state: present
+        shell: /bin/bash
+        groups: [sudo]
+        append: true
+
+    - name: 3. Create application directory structure
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: deploy
+        group: deploy
+        mode: '0755'
+      loop:
+        - "{{ ptfp_app_dir }}"
+        - "{{ ptfp_logs_dir }}"
+
+    - name: 4. Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+      ignore_errors: true
+
+    - name: 5. Allow application port through firewall
+      ufw:
+        rule: allow
+        port: "{{ ptfp_port }}"
+        proto: tcp
+      ignore_errors: true
+
+    - name: 6. Deploy or update PTFP application container
+      docker_container:
+        name: ptfp-container
+        image: "{{ ptfp_image }}:{{ ptfp_version }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "{{ ptfp_port }}:8080"
+        env:
+          SPRING_PROFILES_ACTIVE: "prod"
+      ignore_errors: true
+
+    - name: 7. Validate application health endpoint
+      uri:
+        url: "http://localhost:{{ ptfp_port }}/actuator/health"
+        status_code: 200
+        return_content: true
+      register: health_result
+      until: health_result.status == 200
+      retries: 6
+      delay: 5
+      ignore_errors: true
