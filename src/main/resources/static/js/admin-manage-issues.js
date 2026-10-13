@@ -1,11 +1,12 @@
 // Auth Guard
-if (localStorage.getItem('ptfp_admin_logged_in') !== 'true') {
+if (sessionStorage.getItem('ptfp_admin_logged_in') !== 'true') {
   window.location.href = '/admin/login.html';
 }
 
 function adminLogout() {
+  sessionStorage.removeItem('ptfp_admin_logged_in');
+  sessionStorage.removeItem('ptfp_admin_user');
   localStorage.removeItem('ptfp_admin_logged_in');
-  localStorage.removeItem('ptfp_admin_user');
   window.location.href = '/admin/login.html';
 }
 

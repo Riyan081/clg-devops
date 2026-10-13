@@ -54,7 +54,7 @@
           <li>✅ Operational analytics dashboard</li>
         </ul>
         <button class="btn btn-secondary" style="width:100%; margin-top:1.25rem;" id="btn-enter-admin">
-          Enter as Admin →
+          Admin Login →
         </button>
       </div>
     </div>
@@ -93,12 +93,7 @@
           window.location.href = '/user/login.html';
         }
       } else {
-        const adminLoggedIn = localStorage.getItem('ptfp_admin_logged_in');
-        if (adminLoggedIn === 'true') {
-          window.location.href = '/admin/manage-issues.html';
-        } else {
-          window.location.href = '/admin/login.html';
-        }
+        window.location.href = '/admin/login.html';
       }
     }
 

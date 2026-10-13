@@ -65,8 +65,9 @@
       const alertBox = document.getElementById('alert-container');
 
       if ((user.toLowerCase() === 'admin' || user.toLowerCase() === 'admin@transitpulse.gov') && pass === 'admin123') {
+        sessionStorage.setItem('ptfp_admin_logged_in', 'true');
+        sessionStorage.setItem('ptfp_admin_user', user);
         localStorage.setItem('ptfp_admin_logged_in', 'true');
-        localStorage.setItem('ptfp_admin_user', user);
         alertBox.innerHTML = '<div class="alert alert-success">✅ Access Granted! Redirecting to Management Console...</div>';
         setTimeout(() => {
           window.location.href = '/admin/manage-issues.html';
