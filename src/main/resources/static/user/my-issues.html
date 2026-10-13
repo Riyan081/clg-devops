@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Issues | Commuter Portal | TransitPulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/index.html" class="nav-brand">
+      🚌 TransitPulse | Commuter Portal
+    </a>
+    <nav class="nav-links" style="align-items:center;">
+      <a href="/user/raise-issue.html">Raise Issue</a>
+      <a href="/user/my-issues.html" class="active">My Issues</a>
+      <span id="nav-user-badge" class="user-badge" style="display:none;">
+        👤 <span id="nav-user-name">User</span>
+      </span>
+      <button id="btn-logout" class="btn-logout" style="display:none;" onclick="API.logoutUser()" title="Logout">🚪 Logout</button>
+      <a href="/index.html" class="nav-role-switch" title="Switch Role">🔄 Switch Role</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <span style="font-size:1.5rem;">📋</span>
+          <h2 class="card-title" style="margin-bottom:0;">My Submitted Issues</h2>
+        </div>
+        <a href="/user/raise-issue.html" class="btn btn-primary btn-sm">+ Raise New Issue</a>
+      </div>
+
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">
+        Track the status of grievances you've submitted. Enter your email to view your issues.
+      </p>
+
+      <div style="display:grid; grid-template-columns: 1fr auto; gap:0.75rem; margin-bottom:1.25rem; max-width:500px;">
+        <input type="email" id="user-email-input" class="form-control" placeholder="Enter your email to view your issues...">
+        <button id="load-my-issues-btn" class="btn btn-primary">🔍 Find My Issues</button>
+      </div>
+
+      <div id="user-info-bar" style="display:none; padding:0.75rem 1rem; background:var(--primary-light); border-radius:var(--radius); margin-bottom:1rem; font-size:0.9rem;">
+        Showing issues for: <strong id="current-user-email"></strong>
+        <span style="float:right; font-size:0.85rem; color:var(--text-muted);" id="issue-count-label"></span>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Route</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Date Filed</th>
+              <th>Admin Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="my-issues-table-body">
+            <tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Enter your email above to view your submitted issues.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/user-my-issues.js"></script>
+</body>
+</html>

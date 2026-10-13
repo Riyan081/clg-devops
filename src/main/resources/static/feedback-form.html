@@ -14,62 +14,22 @@
     </a>
     <nav class="nav-links">
       <a href="/index.html">Home</a>
-      <a href="/feedback-form.html" class="active">Submit Feedback</a>
-      <a href="/feedback-list.html">Feedback List</a>
-      <a href="/dashboard.html">Analytics Dashboard</a>
     </nav>
   </header>
 
-  <main class="container" style="max-width: 750px;">
+  <main class="container" style="max-width:600px; text-align:center; padding-top:3rem;">
     <div class="card">
-      <h2 class="card-title">Submit Commuter Feedback</h2>
-      <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem;">
-        Please provide the route and details of the issue experienced during your transit journey.
+      <h2 class="card-title">Page Moved</h2>
+      <p style="color:var(--text-muted); margin-bottom:1.5rem;">
+        This page has been reorganized into separate User and Admin portals for better experience.
       </p>
-
-      <div id="alert-container"></div>
-
-      <form id="feedback-form">
-        <div class="form-group">
-          <label for="route">Transit Route <span style="color:red;">*</span></label>
-          <select id="route" class="form-control" required>
-            <option value="">Loading routes...</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="category">Grievance Category <span style="color:red;">*</span></label>
-          <select id="category" class="form-control" required>
-            <option value="">-- Select Category --</option>
-            <option value="DELAY">Delay / Schedule Deviation</option>
-            <option value="CLEANLINESS">Cleanliness & Hygiene</option>
-            <option value="SAFETY">Safety & Security</option>
-            <option value="STAFF">Staff / Driver Conduct</option>
-            <option value="OVERCROWDING">Overcrowding & Capacity</option>
-            <option value="OTHER">Other Operational Issue</option>
-          </select>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-          <div class="form-group">
-            <label for="passengerName">Your Name (Optional)</label>
-            <input type="text" id="passengerName" class="form-control" placeholder="Jane Doe">
-          </div>
-          <div class="form-group">
-            <label for="passengerEmail">Your Email (Optional)</label>
-            <input type="email" id="passengerEmail" class="form-control" placeholder="jane@example.com">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="description">Issue Description <span style="color:red;">*</span></label>
-          <textarea id="description" class="form-control" rows="4" placeholder="Describe what occurred, vehicle number, or stop location..." required></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary" id="submit-btn" style="width:100%;">
-          Submit Feedback
-        </button>
-      </form>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="/user/raise-issue.html" class="btn btn-primary">🧑‍💼 Commuter: Raise Issue</a>
+        <a href="/admin/manage-issues.html" class="btn btn-secondary">🛡️ Admin: Manage Issues</a>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:1.5rem;">
+        Or <a href="/index.html" style="color:var(--primary);">go to the home page</a> to choose your role.
+      </p>
     </div>
   </main>
 
@@ -77,7 +37,5 @@
     <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
   </footer>
 
-  <script src="/js/api.js"></script>
-  <script src="/js/feedback-form.js"></script>
 </body>
 </html>

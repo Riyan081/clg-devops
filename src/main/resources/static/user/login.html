@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commuter Login & Register | TransitPulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/index.html" class="nav-brand">
+      🚌 TransitPulse | Commuter Portal
+    </a>
+    <nav class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/index.html" class="nav-role-switch" title="Switch Role">🛡️ Admin Portal</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="auth-container card">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="font-size:2.5rem; margin-bottom:0.25rem;">🧑‍💼</div>
+        <h2 class="card-title" style="margin-bottom:0.25rem;">Commuter Access</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Sign in or create an account to raise transit grievances and track status.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="tab-login" class="auth-tab-btn active" onclick="switchTab('login')">Sign In</button>
+        <button id="tab-register" class="auth-tab-btn" onclick="switchTab('register')">Create Account</button>
+      </div>
+
+      <div id="alert-container"></div>
+
+      <!-- Login Form -->
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email Address <span style="color:red;">*</span></label>
+          <input type="email" id="login-email" class="form-control" placeholder="jane@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password <span style="color:red;">*</span></label>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-login" style="width:100%; margin-top:0.5rem;">
+          🔑 Sign In
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form" style="display:none;">
+        <div class="form-group">
+          <label for="reg-name">Full Name <span style="color:red;">*</span></label>
+          <input type="text" id="reg-name" class="form-control" placeholder="Jane Doe" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email Address <span style="color:red;">*</span></label>
+          <input type="email" id="reg-email" class="form-control" placeholder="jane@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-phone">Phone Number <span style="color:var(--text-muted); font-size:0.8rem;">(Optional)</span></label>
+          <input type="tel" id="reg-phone" class="form-control" placeholder="9876543210" autocomplete="tel">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Password <span style="color:red;">*</span> <small style="color:var(--text-muted);">(min 4 characters)</small></label>
+          <input type="password" id="reg-password" class="form-control" placeholder="Choose a password" required minlength="4" autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-register" style="width:100%; margin-top:0.5rem;">
+          ✨ Create Account & Continue
+        </button>
+      </form>
+
+      <div style="margin-top:1.5rem; text-align:center; font-size:0.85rem; color:var(--text-muted);">
+        Need transport administrative access? <a href="/admin/manage-issues.html" style="color:var(--primary); font-weight:600;">Go to Admin Portal →</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script>
+    const alertContainer = document.getElementById('alert-container');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+
+    function switchTab(tab) {
+      alertContainer.innerHTML = '';
+      if (tab === 'login') {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+      } else {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+      }
+    }
+
+    function getRedirectTarget() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('redirect') || '/user/raise-issue.html';
+    }
+
+    // If user is already logged in, redirect them
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentUser = API.getCurrentUser();
+      if (currentUser) {
+        window.location.href = getRedirectTarget();
+      }
+    });
+
+    // Handle Login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertContainer.innerHTML = '';
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const user = await API.loginUser({ email, password });
+        API.setCurrentUser(user);
+        alertContainer.innerHTML = `
+          <div class="alert alert-success">
+            <strong>Welcome back, ${user.fullName}!</strong> Redirecting...
+          </div>
+        `;
+        setTimeout(() => {
+          window.location.href = getRedirectTarget();
+        }, 600);
+      } catch (err) {
+        alertContainer.innerHTML = `
+          <div class="alert alert-danger">
+            ${err.message || 'Login failed. Please check your credentials.'}
+          </div>
+        `;
+      }
+    });
+
+    // Handle Register
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertContainer.innerHTML = '';
+      const fullName = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const password = document.getElementById('reg-password').value;
+
+      try {
+        const user = await API.registerUser({ fullName, email, phone, password });
+        API.setCurrentUser(user);
+        alertContainer.innerHTML = `
+          <div class="alert alert-success">
+            <strong>Account created successfully!</strong> Welcome, ${user.fullName}. Redirecting...
+          </div>
+        `;
+        setTimeout(() => {
+          window.location.href = getRedirectTarget();
+        }, 600);
+      } catch (err) {
+        alertContainer.innerHTML = `
+          <div class="alert alert-danger">
+            ${err.message || 'Registration failed.'}
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

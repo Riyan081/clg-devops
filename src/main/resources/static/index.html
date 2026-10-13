@@ -14,9 +14,6 @@
     </a>
     <nav class="nav-links">
       <a href="/index.html" class="active">Home</a>
-      <a href="/feedback-form.html">Submit Feedback</a>
-      <a href="/feedback-list.html">Feedback List</a>
-      <a href="/dashboard.html">Analytics Dashboard</a>
     </nav>
   </header>
 
@@ -24,13 +21,45 @@
     <section class="hero">
       <h1>Automated Public Transport Feedback Portal</h1>
       <p>Voice your daily commute experiences on buses, metros, and trains. Help transit authorities improve service, resolve delays, and enhance safety.</p>
-      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-        <a href="/feedback-form.html" class="btn btn-primary" id="btn-submit-hero">Submit a Grievance</a>
-        <a href="/feedback-list.html" class="btn btn-secondary">Track Existing Feedback</a>
-      </div>
     </section>
 
-    <div class="grid-metrics">
+    <h2 class="card-title" style="text-align:center; margin-bottom:1.5rem;">Choose Your Portal</h2>
+
+    <div class="role-selection-grid">
+      <div class="card role-card" id="role-user-card" onclick="selectRole('user')">
+        <div style="font-size:3rem; margin-bottom:1rem;">🧑‍💼</div>
+        <h3 class="card-title" style="font-size:1.25rem; color:var(--primary);">Commuter Portal</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">
+          Submit grievances about your transit experience and track the status of your submitted issues.
+        </p>
+        <ul class="role-features">
+          <li>✅ Secure Commuter Login & Sign Up</li>
+          <li>✅ Raise a new grievance / issue</li>
+          <li>✅ Track your submitted tickets in real-time</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%; margin-top:1.25rem;" id="btn-enter-user">
+          Commuter Login / Register →
+        </button>
+      </div>
+
+      <div class="card role-card" id="role-admin-card" onclick="selectRole('admin')">
+        <div style="font-size:3rem; margin-bottom:1rem;">🛡️</div>
+        <h3 class="card-title" style="font-size:1.25rem; color:var(--primary);">Admin / Officer Portal</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">
+          Manage all submitted grievances, update statuses, and view operational analytics dashboard.
+        </p>
+        <ul class="role-features">
+          <li>✅ View all submitted grievances</li>
+          <li>✅ Triage & resolve issues (status workflow)</li>
+          <li>✅ Operational analytics dashboard</li>
+        </ul>
+        <button class="btn btn-secondary" style="width:100%; margin-top:1.25rem;" id="btn-enter-admin">
+          Enter as Admin →
+        </button>
+      </div>
+    </div>
+
+    <div class="grid-metrics" style="margin-top:2.5rem;">
       <div class="card" style="text-align:center;">
         <div style="font-size:2rem; margin-bottom:0.5rem;">⚡</div>
         <h3 class="card-title" style="font-size:1.1rem;">Instant Ticket Reference</h3>
@@ -38,8 +67,8 @@
       </div>
       <div class="card" style="text-align:center;">
         <div style="font-size:2rem; margin-bottom:0.5rem;">🛡️</div>
-        <h3 class="card-title" style="font-size:1.1rem;">Role-Based Resolution</h3>
-        <p style="color:var(--text-muted); font-size:0.9rem;">Transport officers triage and resolve issues under strict SLA workflows.</p>
+        <h3 class="card-title" style="font-size:1.1rem;">Role-Based Separation</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Commuter portal for raising & tracking; Admin portal for triage & resolution.</p>
       </div>
       <div class="card" style="text-align:center;">
         <div style="font-size:2rem; margin-bottom:0.5rem;">📊</div>
@@ -52,6 +81,32 @@
   <footer>
     <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
   </footer>
+
+  <script>
+    function selectRole(role) {
+      localStorage.setItem('ptfp_role', role);
+      if (role === 'user') {
+        const user = localStorage.getItem('ptfp_user');
+        if (user) {
+          window.location.href = '/user/raise-issue.html';
+        } else {
+          window.location.href = '/user/login.html';
+        }
+      } else {
+        window.location.href = '/admin/manage-issues.html';
+      }
+    }
+
+    // If role already set, highlight the card
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedRole = localStorage.getItem('ptfp_role');
+      if (savedRole === 'user') {
+        document.getElementById('role-user-card').classList.add('role-card-active');
+      } else if (savedRole === 'admin') {
+        document.getElementById('role-admin-card').classList.add('role-card-active');
+      }
+    });
+  </script>
 
 </body>
 </html>

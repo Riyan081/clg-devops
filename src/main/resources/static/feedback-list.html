@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feedback List & Status Tracker | TransitPulse</title>
+  <title>Feedback List | TransitPulse</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -14,66 +14,22 @@
     </a>
     <nav class="nav-links">
       <a href="/index.html">Home</a>
-      <a href="/feedback-form.html">Submit Feedback</a>
-      <a href="/feedback-list.html" class="active">Feedback List</a>
-      <a href="/dashboard.html">Analytics Dashboard</a>
     </nav>
   </header>
 
-  <main class="container">
+  <main class="container" style="max-width:600px; text-align:center; padding-top:3rem;">
     <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
-        <h2 class="card-title" style="margin-bottom:0;">Transit Feedback Registry</h2>
-        <a href="/feedback-form.html" class="btn btn-primary btn-sm">+ New Feedback</a>
+      <h2 class="card-title">Page Moved</h2>
+      <p style="color:var(--text-muted); margin-bottom:1.5rem;">
+        This page has been reorganized into separate User and Admin portals.
+      </p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="/user/my-issues.html" class="btn btn-primary">🧑‍💼 Commuter: My Issues</a>
+        <a href="/admin/manage-issues.html" class="btn btn-secondary">🛡️ Admin: All Issues</a>
       </div>
-
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) 100px; gap:0.75rem; margin-bottom:1rem;">
-        <div>
-          <select id="filter-status" class="form-control">
-            <option value="">All Statuses</option>
-            <option value="SUBMITTED">SUBMITTED</option>
-            <option value="IN_REVIEW">IN_REVIEW</option>
-            <option value="RESOLVED">RESOLVED</option>
-            <option value="CLOSED">CLOSED</option>
-          </select>
-        </div>
-        <div>
-          <select id="filter-category" class="form-control">
-            <option value="">All Categories</option>
-            <option value="DELAY">DELAY</option>
-            <option value="CLEANLINESS">CLEANLINESS</option>
-            <option value="SAFETY">SAFETY</option>
-            <option value="STAFF">STAFF</option>
-            <option value="OVERCROWDING">OVERCROWDING</option>
-            <option value="OTHER">OTHER</option>
-          </select>
-        </div>
-        <div>
-          <input type="text" id="search-input" class="form-control" placeholder="Search ticket, route, keyword...">
-        </div>
-        <div>
-          <button id="search-btn" class="btn btn-secondary" style="width:100%;">Search</button>
-        </div>
-      </div>
-
-      <div style="overflow-x:auto;">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Ticket ID</th>
-              <th>Route</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Action (Workflow)</th>
-            </tr>
-          </thead>
-          <tbody id="feedback-table-body">
-            <!-- Dynamically populated via feedback-list.js -->
-          </tbody>
-        </table>
-      </div>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:1.5rem;">
+        Or <a href="/index.html" style="color:var(--primary);">go to the home page</a> to choose your role.
+      </p>
     </div>
   </main>
 
@@ -81,7 +37,5 @@
     <p>&copy; 2026 Automated Public Transport Feedback Portal &bull; Continuous DevOps Lifecycle</p>
   </footer>
 
-  <script src="/js/api.js"></script>
-  <script src="/js/feedback-list.js"></script>
 </body>
 </html>
