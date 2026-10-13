@@ -3,11 +3,8 @@
 FROM maven:3.9-eclipse-temurin-17 AS builder
 WORKDIR /build
 
-# Cache Maven dependencies
+# Copy POM and sources, then build in one step (more resilient to network issues)
 COPY pom.xml .
-RUN mvn -B dependency:go-offline
-
-# Copy sources and package WAR
 COPY src ./src
 RUN mvn -B clean package -DskipTests
 
@@ -15,8 +12,10 @@ RUN mvn -B clean package -DskipTests
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Non-root user for security
-RUN groupadd -r ptfp && useradd -r -g ptfp -d /app ptfp
+# Install curl for health checks and create non-root user
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd -r ptfp && useradd -r -g ptfp -d /app ptfp
 
 COPY --from=builder /build/target/ptfp.war /app/ptfp.war
 RUN chown -R ptfp:ptfp /app
