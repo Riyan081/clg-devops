@@ -23,6 +23,8 @@ public class FeedbackRequest {
     @Size(min = 5, max = 2000, message = "Description must be between 5 and 2000 characters")
     private String description;
 
+    private String imageUrl;
+
     public FeedbackRequest() {}
 
     public String getRouteCode() { return routeCode; }
@@ -39,4 +41,7 @@ public class FeedbackRequest {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

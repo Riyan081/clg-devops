@@ -37,6 +37,10 @@ public class Feedback {
     @Column(length = 2000)
     private String resolutionRemarks;
 
+    @Lob
+    @Column(columnDefinition = "CLOB")
+    private String imageUrl;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -85,6 +89,9 @@ public class Feedback {
 
     public String getResolutionRemarks() { return resolutionRemarks; }
     public void setResolutionRemarks(String resolutionRemarks) { this.resolutionRemarks = resolutionRemarks; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

@@ -54,6 +54,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     `;
   }
 
+  // Image attachment handler
+  let selectedBase64Image = null;
+  const imageInput = document.getElementById('issue-image');
+  const previewContainer = document.getElementById('image-preview-container');
+  const previewImg = document.getElementById('image-preview');
+  const removeImgBtn = document.getElementById('btn-remove-image');
+
+  if (imageInput) {
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert('Image is too large. Please select an image under 2MB.');
+        imageInput.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        selectedBase64Image = event.target.result;
+        previewImg.src = selectedBase64Image;
+        previewContainer.style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (removeImgBtn) {
+    removeImgBtn.addEventListener('click', () => {
+      selectedBase64Image = null;
+      if (imageInput) imageInput.value = '';
+      if (previewContainer) previewContainer.style.display = 'none';
+      if (previewImg) previewImg.src = '';
+    });
+  }
+
   // Handle form submission
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -84,7 +121,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         category,
         passengerName,
         passengerEmail,
-        description
+        description,
+        imageUrl: selectedBase64Image
       });
 
       alertContainer.innerHTML = `
@@ -95,6 +133,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `;
       form.reset();
+      selectedBase64Image = null;
+      if (previewContainer) previewContainer.style.display = 'none';
+      if (previewImg) previewImg.src = '';
       // Re-fill name and email after reset
       document.getElementById('passengerName').value = passengerName;
       document.getElementById('passengerEmail').value = passengerEmail;

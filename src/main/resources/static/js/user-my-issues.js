@@ -60,12 +60,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      window.myIssuesMap = {};
+      myItems.forEach(i => { window.myIssuesMap[i.id] = i; });
+
       tableBody.innerHTML = myItems.map(item => `
         <tr id="row-${item.id}">
           <td><strong>${item.ticketId}</strong></td>
           <td>${item.routeCode}</td>
           <td>${item.category}</td>
-          <td>${item.description}</td>
+          <td>
+            <div>${item.description}</div>
+            ${item.imageUrl ? `
+              <div style="margin-top:6px;">
+                <button type="button" class="btn" style="padding:0.25rem 0.5rem; font-size:0.75rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; cursor:pointer;" onclick="viewMyPhoto(${item.id})">
+                  📷 View Photo
+                </button>
+              </div>
+            ` : ''}
+          </td>
           <td>
             <span class="badge badge-${item.status}">
               ${item.status}
@@ -81,6 +93,24 @@ document.addEventListener('DOMContentLoaded', () => {
       tableBody.innerHTML = `<tr><td colspan="7" style="color:red;text-align:center;">${err.message}</td></tr>`;
     }
   }
+
+  window.viewMyPhoto = function(id) {
+    const item = window.myIssuesMap[id];
+    if (!item || !item.imageUrl) return;
+    const modal = document.getElementById('photo-modal');
+    const modalImg = document.getElementById('modal-photo-img');
+    const modalTitle = document.getElementById('modal-photo-title');
+    if (modal && modalImg) {
+      modalImg.src = item.imageUrl;
+      if (modalTitle) modalTitle.textContent = `Attached Photo — Ticket: ${item.ticketId}`;
+      modal.style.display = 'flex';
+    }
+  };
+
+  window.closeMyPhotoModal = function() {
+    const modal = document.getElementById('photo-modal');
+    if (modal) modal.style.display = 'none';
+  };
 
   loadBtn.addEventListener('click', () => {
     loadMyIssues(emailInput.value);

@@ -81,6 +81,7 @@ public class FeedbackService {
         feedback.setPassengerName(request.getPassengerName() != null ? request.getPassengerName().trim() : null);
         feedback.setPassengerEmail(request.getPassengerEmail() != null ? request.getPassengerEmail().trim() : null);
         feedback.setDescription(request.getDescription().trim());
+        feedback.setImageUrl(request.getImageUrl() != null && !request.getImageUrl().trim().isEmpty() ? request.getImageUrl().trim() : null);
         feedback.setStatus(FeedbackStatus.SUBMITTED);
         return feedbackRepository.save(feedback);
     }

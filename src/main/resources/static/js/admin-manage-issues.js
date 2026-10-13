@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      window.allFeedbacksMap = {};
+      items.forEach(i => { window.allFeedbacksMap[i.id] = i; });
+
       tableBody.innerHTML = items.map(item => `
         <tr id="row-${item.id}">
           <td><strong>${item.ticketId}</strong></td>
@@ -40,7 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
             ${item.passengerName || 'Anonymous'}
             ${item.passengerEmail ? '<br><small style="color:var(--text-muted);">' + item.passengerEmail + '</small>' : ''}
           </td>
-          <td>${item.description}</td>
+          <td>
+            <div>${item.description}</div>
+            ${item.imageUrl ? `
+              <div style="margin-top:6px;">
+                <button type="button" class="btn" style="padding:0.25rem 0.5rem; font-size:0.75rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; cursor:pointer;" onclick="viewPhoto(${item.id})">
+                  📷 View Photo
+                </button>
+              </div>
+            ` : ''}
+          </td>
           <td>
             <span class="badge badge-${item.status}" id="status-badge-${item.id}">
               ${item.status}
@@ -63,6 +75,24 @@ document.addEventListener('DOMContentLoaded', () => {
       tableBody.innerHTML = `<tr><td colspan="8" style="color:red;text-align:center;">${err.message}</td></tr>`;
     }
   }
+
+  window.viewPhoto = function(id) {
+    const item = window.allFeedbacksMap[id];
+    if (!item || !item.imageUrl) return;
+    const modal = document.getElementById('photo-modal');
+    const modalImg = document.getElementById('modal-photo-img');
+    const modalTitle = document.getElementById('modal-photo-title');
+    if (modal && modalImg) {
+      modalImg.src = item.imageUrl;
+      if (modalTitle) modalTitle.textContent = `Attached Photo — Ticket: ${item.ticketId}`;
+      modal.style.display = 'flex';
+    }
+  };
+
+  window.closePhotoModal = function() {
+    const modal = document.getElementById('photo-modal');
+    if (modal) modal.style.display = 'none';
+  };
 
   window.changeStatus = async function(id, newStatus) {
     const remarks = prompt('Enter resolution remarks (optional):') || 'Status updated via admin console';
