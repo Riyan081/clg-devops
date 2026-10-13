@@ -93,7 +93,12 @@
           window.location.href = '/user/login.html';
         }
       } else {
-        window.location.href = '/admin/manage-issues.html';
+        const adminLoggedIn = localStorage.getItem('ptfp_admin_logged_in');
+        if (adminLoggedIn === 'true') {
+          window.location.href = '/admin/manage-issues.html';
+        } else {
+          window.location.href = '/admin/login.html';
+        }
       }
     }
 

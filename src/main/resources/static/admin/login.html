@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | TransitPulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/index.html" class="nav-brand">
+      🛡️ TransitPulse | Transit Authority
+    </a>
+    <nav class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/user/login.html" class="nav-role-switch">🧑‍💼 Commuter Portal</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="auth-container card" style="max-width:440px; margin:2.5rem auto;">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="font-size:2.8rem; margin-bottom:0.25rem;">🛡️</div>
+        <h2 class="card-title" style="margin-bottom:0.25rem;">Transit Officer Login</h2>
+        <p style="color:var(--text-muted); font-size:0.85rem;">Restricted area for authorized transit personnel only.</p>
+      </div>
+
+      <div id="alert-container"></div>
+
+      <!-- Admin Login Form -->
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label for="admin-user">Admin Username / Email <span style="color:red;">*</span></label>
+          <input type="text" id="admin-user" class="form-control" placeholder="admin@transitpulse.gov" required autocomplete="username" value="admin@transitpulse.gov">
+        </div>
+
+        <div class="form-group">
+          <label for="admin-pass">Password <span style="color:red;">*</span></label>
+          <input type="password" id="admin-pass" class="form-control" placeholder="Enter admin password" required autocomplete="current-password" value="admin123">
+        </div>
+
+        <div style="background:var(--bg-secondary); border-left:4px solid var(--primary); padding:0.6rem 0.8rem; margin-bottom:1rem; border-radius:4px; font-size:0.8rem;">
+          🔑 <strong>Default Admin Credentials:</strong><br>
+          User: <code>admin</code><br>
+          Password: <code>admin123</code>
+        </div>
+
+        <button type="submit" class="btn btn-secondary" id="btn-admin-login" style="width:100%;">
+          🛡️ Authenticate & Access Portal
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 TransitPulse Automated Feedback Portal &bull; Continuous DevOps Lifecycle</p>
+  </footer>
+
+  <script>
+    document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value.trim();
+      const alertBox = document.getElementById('alert-container');
+
+      if ((user.toLowerCase() === 'admin' || user.toLowerCase() === 'admin@transitpulse.gov') && pass === 'admin123') {
+        localStorage.setItem('ptfp_admin_logged_in', 'true');
+        localStorage.setItem('ptfp_admin_user', user);
+        alertBox.innerHTML = '<div class="alert alert-success">✅ Access Granted! Redirecting to Management Console...</div>';
+        setTimeout(() => {
+          window.location.href = '/admin/manage-issues.html';
+        }, 500);
+      } else {
+        alertBox.innerHTML = '<div class="alert alert-danger">❌ Invalid Admin Credentials. Unauthorized Access Denied.</div>';
+      }
+    });
+  </script>
+</body>
+</html>

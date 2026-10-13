@@ -1,3 +1,14 @@
+// Auth Guard
+if (localStorage.getItem('ptfp_admin_logged_in') !== 'true') {
+  window.location.href = '/admin/login.html';
+}
+
+function adminLogout() {
+  localStorage.removeItem('ptfp_admin_logged_in');
+  localStorage.removeItem('ptfp_admin_user');
+  window.location.href = '/admin/login.html';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('feedback-table-body');
   const statusFilter = document.getElementById('filter-status');
